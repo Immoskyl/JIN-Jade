@@ -1,7 +1,5 @@
-import java.io.Console;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Scanner;
 
@@ -20,6 +18,10 @@ public class ConsoleDisplay {
     public static final String ANSI_CYAN = "\u001B[36m";
     public static final String ANSI_WHITE = "\u001B[37m";
 
+
+    public static final int max_X = 28;
+    public static final int max_Y = 23;
+
     public static final int LeftLight_Y = 8;
     public static final int LeftLight_X = 7;
     public static final int RightLight_Y = 16;
@@ -29,10 +31,10 @@ public class ConsoleDisplay {
     public static final int BottomLight_Y = 16;
     public static final int BottomLight_X = 7;
 
-    public static final int UpToDownWay_X = 13;
-    public static final int DownToUpWay_X = 15;
-    public static final int LeftToRight_Y = 14;
-    public static final int RightToLeftWay_Y = 12;
+    public static final int UpToDownWay_Y = 12;
+    public static final int DownToUpWay_Y = 14;
+    public static final int LeftToRightWay_X = 13;
+    public static final int RightToLeftWay_X = 11;
 
     private ArrayList<String> canvas = new ArrayList<>();
 
@@ -274,19 +276,31 @@ public class ConsoleDisplay {
 
 
     public static void main(String[] args) {
+        //instatiate the console display, (that will initialize everything needed)
         ConsoleDisplay c = new ConsoleDisplay();
 
+        //lets crate a bunch of vehicles driving in the junction
+        Vehicle v1 = new Vehicle( 1, UpToDownWay_Y); //we want to put one car going downwards and at current pos 10
+        Vehicle v2 = new Vehicle( 15, DownToUpWay_Y);
+        Vehicle v3 = new Vehicle( LeftToRightWay_X, 1);
+        Vehicle v4 = new Vehicle( RightToLeftWay_X, 19);
+
+
+        //at each frame, start refreshing the base canvas...
         c.canvas = c.drawBaseCanvas2();
 
-
+        //...and print everything on it
+        //lets set the lights' colors
         c.drawLight(Light.BOTTOM, LightColor.GREEN);
         c.drawLight(Light.TOP, LightColor.GREEN);
         c.drawLight(Light.RIGHT, LightColor.RED);
         c.drawLight(Light.LEFT, LightColor.RED);
 
-        Vehicle v1 = new Vehicle(UpToDownWay_X, 10);
-
+        //lets draw the vehicles
         c.drawVehicule(v1);
+        c.drawVehicule(v2);
+        c.drawVehicule(v3);
+        c.drawVehicule(v4);
 
         c.printCanvas();
     }
