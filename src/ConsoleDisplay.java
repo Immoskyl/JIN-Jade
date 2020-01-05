@@ -33,8 +33,8 @@ public class ConsoleDisplay {
 
     public static final int UpToDownWay_X = 12;
     public static final int DownToUpWay_X = 14;
-    public static final int LeftToRightWay_X = 13;
-    public static final int RightToLeftWay_X = 11;
+    public static final int LeftToRightWay_Y = 13;
+    public static final int RightToLeftWay_Y = 11;
 
     private ArrayList<String> canvas = new ArrayList<>();
 
@@ -129,7 +129,7 @@ public class ConsoleDisplay {
      * /!\ This implementation cannot find the baseCanvas file so do not use it. /!\
      * @return A new base canvas as a List of String
      */
-    public ArrayList<String> drawBaseCanvas () {
+    public void drawBaseCanvas () {
 
         ArrayList<String> canvas = new ArrayList<>();
 
@@ -143,15 +143,14 @@ public class ConsoleDisplay {
         } catch (Exception e) {
             canvas.add("Exception: " + e.toString());
         }
-        return canvas;
+        this.canvas = canvas;
     }
 
     /**
      * Returns the base canvas at each frame.
      * This is a KISS implementation
-     * @return A new base canvas as a List of String
      */
-     public ArrayList<String> drawBaseCanvas2 () {
+     public void drawBaseCanvas2 () {
          ArrayList<String> canvas = new ArrayList<>();
 
          canvas.add("          |     |           ");
@@ -180,7 +179,7 @@ public class ConsoleDisplay {
          canvas.add("          |     |           ");
          canvas.add("          |     |           ");
 
-         return canvas;
+         this.canvas = canvas;
      }
 
 
@@ -230,6 +229,8 @@ public class ConsoleDisplay {
 
             canvas.set(change.getPosY(), modifiedLine);
         }
+
+        changesToRedraw.clear();
 
     }
 
@@ -287,7 +288,7 @@ public class ConsoleDisplay {
 
 
         //at each frame, start refreshing the base canvas...
-        c.canvas = c.drawBaseCanvas2();
+        c.drawBaseCanvas2();
 
         //...and print everything on it
         //lets set the lights' colors

@@ -28,13 +28,13 @@ public class Vehicle {
                 X = ConsoleDisplay.DownToUpWay_X;
                 Y = ConsoleDisplay.max_Y;
                 break;
-            case RightToLeft:
-                X = ConsoleDisplay.max_X;
-                Y = ConsoleDisplay.RightToLeftWay_X;
-                break;
             case LeftToRight:
                 X = 0;
-                Y = ConsoleDisplay.LeftToRightWay_X;
+                Y = ConsoleDisplay.LeftToRightWay_Y;
+                break;
+            case RightToLeft:
+                X = ConsoleDisplay.max_X;
+                Y = ConsoleDisplay.RightToLeftWay_Y;
                 break;
         }
     }
@@ -83,5 +83,10 @@ public class Vehicle {
 
     public void setWay(Way way) {
         this.way = way;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }
