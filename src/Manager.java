@@ -13,6 +13,8 @@ public class Manager {
 
     /**
      * Create randomly a new vehicle if the position is empty
+     * This is just a basic implementation to make the demo of the simulation tho
+     *
      * 1/8 chance to create a new vehicle driving from top to bot
      * 1/8 chance to create a new vehicle driving from bot to top
      * 1/8 chance to create a new vehicle driving from left to right
@@ -56,6 +58,10 @@ public class Manager {
     }
 
 
+    /**
+     * Make the vehicles move forward if possible
+     * If a vehicle moves out of the scope of the simulation, remove it
+     */
     private void animateVehicles() {
         for (Vehicle vehicle : vehicleList) {
             if (vehicle.isStopped()) {
@@ -115,6 +121,10 @@ public class Manager {
     }
 
 
+    /**
+     * Method to execute at each 'frame' and that calls basically eveything
+     * This is just a basic implementation to make the demo of the simulation tho
+     */
     public void gameLoop() {
         while(true) {
             c.drawBaseCanvas2();
@@ -123,20 +133,30 @@ public class Manager {
 
             animateVehicles();
 
-            System.out.println(vehicleList);
-
             displayVehicules();
 
             c.printCanvas();
 
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                return;
-            }
+            delay(500);
         }
     }
 
+
+    /**
+     * Do you really need an explanation for this?
+     * @param int miliseconds
+     */
+    private void delay(int miliseconds) {
+        try {
+            Thread.sleep(miliseconds);
+        } catch (InterruptedException e) {
+            return;
+        }
+    }
+
+    /**
+     * Draw the vehicles on the console
+     */
     private void displayVehicules() {
         for (Vehicle vehicle : vehicleList) {
             c.drawVehicule(vehicle);
@@ -144,6 +164,8 @@ public class Manager {
     }
 
     public static void main(String[] args) {
+
+        //quite simple to use it, isn't it?
         Manager manager = new Manager();
         manager.gameLoop();
     }
