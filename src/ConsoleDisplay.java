@@ -19,8 +19,8 @@ public class ConsoleDisplay {
     public static final String ANSI_WHITE = "\u001B[37m";
 
 
-    public static final int max_X = 28;
-    public static final int max_Y = 23;
+    public static final int max_X = 26;
+    public static final int max_Y = 24;
 
     public static final int LeftLight_Y = 8;
     public static final int LeftLight_X = 7;
@@ -31,8 +31,8 @@ public class ConsoleDisplay {
     public static final int BottomLight_Y = 16;
     public static final int BottomLight_X = 7;
 
-    public static final int UpToDownWay_Y = 12;
-    public static final int DownToUpWay_Y = 14;
+    public static final int UpToDownWay_X = 12;
+    public static final int DownToUpWay_X = 14;
     public static final int LeftToRightWay_X = 13;
     public static final int RightToLeftWay_X = 11;
 
@@ -271,7 +271,7 @@ public class ConsoleDisplay {
 
 
    public void drawVehicule(Vehicle vehicle) {
-        addToRedraw(vehicle.getY(), vehicle.getX(), "#", ANSI_BLUE);
+        addToRedraw(vehicle.getX(), vehicle.getY(), "#", ANSI_BLUE);
    }
 
 
@@ -280,10 +280,10 @@ public class ConsoleDisplay {
         ConsoleDisplay c = new ConsoleDisplay();
 
         //lets crate a bunch of vehicles driving in the junction
-        Vehicle v1 = new Vehicle( 1, UpToDownWay_Y); //we want to put one car going downwards and at current pos 10
-        Vehicle v2 = new Vehicle( 15, DownToUpWay_Y);
-        Vehicle v3 = new Vehicle( LeftToRightWay_X, 1);
-        Vehicle v4 = new Vehicle( RightToLeftWay_X, 19);
+        Vehicle v1 = new Vehicle(Vehicle.Way.UpToDown); //we want to put one car going downwards
+        Vehicle v2 = new Vehicle(Vehicle.Way.DownToUp);
+        Vehicle v3 = new Vehicle(Vehicle.Way.LeftToRight);
+        Vehicle v4 = new Vehicle(Vehicle.Way.RightToLeft);
 
 
         //at each frame, start refreshing the base canvas...
