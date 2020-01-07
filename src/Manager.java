@@ -230,6 +230,13 @@ public class Manager {
         while(true) {
             frame++;
 
+            if (frame % 20 == 0) {
+                leftLight.switchColor();
+                rightLight.switchColor();
+                bottomLight.switchColor();
+                topLight.switchColor();
+            }
+
             c.drawBaseCanvas2();
 
             createRandomlyNewVehicle();

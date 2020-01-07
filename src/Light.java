@@ -47,6 +47,10 @@ public class Light {
         return color;
     }
 
+    public void switchColor() {
+        color = color == Color.RED ? Color.GREEN : Color.RED;
+    }
+
     public Way getWay() {
         return way;
     }
