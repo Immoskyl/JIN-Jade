@@ -22,19 +22,24 @@ public class ConsoleDisplay {
     public static final int max_X = 26;
     public static final int max_Y = 24;
 
-    public static final int LeftLight_Y = 8;
+    public static final int LeftLight_Y = 16;
     public static final int LeftLight_X = 7;
-    public static final int RightLight_Y = 16;
+    public static final int RightLight_Y = 8;
     public static final int RightLight_X = 19;
     public static final int TopLight_Y = 8;
-    public static final int TopLight_X = 19;
+    public static final int TopLight_X = 7;
     public static final int BottomLight_Y = 16;
-    public static final int BottomLight_X = 7;
+    public static final int BottomLight_X = 19;
 
     public static final int UpToDownWay_X = 12;
     public static final int DownToUpWay_X = 14;
     public static final int LeftToRightWay_Y = 13;
     public static final int RightToLeftWay_Y = 11;
+
+    public static final int TopWayVehicleStop_Y = 9;
+    public static final int BottomWayVehicleStop_Y = 15;
+    public static final int LeftWayVehicleStop_X = 9;
+    public static final int RightWayCehicleStop_X = 17;
 
     private ArrayList<String> canvas = new ArrayList<>();
 
@@ -147,9 +152,9 @@ public class ConsoleDisplay {
          canvas.add("          |     |           ");
          canvas.add("          |     |           ");
          canvas.add("          |     |           ");
-         canvas.add("          |     |  |        ");
-         canvas.add("          |     |  |        ");
-         canvas.add("     --X  |     |  O        ");
+         canvas.add("       |  |     |           ");
+         canvas.add("       |  |     |           ");
+         canvas.add("       X  |     |  O--      ");
          canvas.add("__________|     |__________ ");
          canvas.add("                            ");
          canvas.add("                            ");
@@ -157,9 +162,9 @@ public class ConsoleDisplay {
          canvas.add("                            ");
          canvas.add("__________       __________ ");
          canvas.add("          |     |           ");
-         canvas.add("       O  |     |  X--      ");
-         canvas.add("       |  |     |           ");
-         canvas.add("       |  |     |           ");
+         canvas.add("     --O  |     |  X        ");
+         canvas.add("          |     |  |        ");
+         canvas.add("          |     |  |        ");
          canvas.add("          |     |           ");
          canvas.add("          |     |           ");
          canvas.add("          |     |           ");
@@ -222,11 +227,11 @@ public class ConsoleDisplay {
 
     }
 
-   public void drawLight (Light.LightWay light, Light.LightColor color) {
+   public void drawLight (Light.Way light, Light.Color color) {
 
        String c;
        String colorChar;
-       if (color == Light.LightColor.RED) {
+       if (color == Light.Color.RED) {
            c = "X";
            colorChar = ANSI_RED;
        } else {
@@ -256,6 +261,7 @@ public class ConsoleDisplay {
         for (String s : canvas) {
             System.out.println(s);
         }
+       System.out.println("------------------------");
    }
 
 
@@ -280,10 +286,10 @@ public class ConsoleDisplay {
 
         //...and print everything on it
         //lets set the lights' colors
-        c.drawLight(Light.LightWay.BOTTOM, Light.LightColor.GREEN);
-        c.drawLight(Light.LightWay.TOP, Light.LightColor.GREEN);
-        c.drawLight(Light.LightWay.RIGHT, Light.LightColor.RED);
-        c.drawLight(Light.LightWay.LEFT, Light.LightColor.RED);
+        c.drawLight(Light.Way.BOTTOM, Light.Color.GREEN);
+        c.drawLight(Light.Way.TOP, Light.Color.GREEN);
+        c.drawLight(Light.Way.RIGHT, Light.Color.RED);
+        c.drawLight(Light.Way.LEFT, Light.Color.RED);
 
         //lets draw the vehicles
         c.drawVehicule(v1);

@@ -3,24 +3,24 @@
  */
 public class Light {
 
-    private Vehicle.Way way;
+    private Way way;
     private int vehicleNb;
     private int timeSinceLastColorChange;
-    private LightColor color;
+    private Color color;
 
-    public static enum LightColor {
+    public static enum Color {
         GREEN,
         RED
     }
 
-    public static enum LightWay {
+    public static enum Way {
         LEFT,
         RIGHT,
         TOP,
         BOTTOM
     }
 
-    public Light(Vehicle.Way way, LightColor color) {
+    public Light(Way way, Color color) {
         this.way = way;
         this.color = color;
         timeSinceLastColorChange = 0;
@@ -43,16 +43,17 @@ public class Light {
         this.timeSinceLastColorChange = timeSinceLastColorChange;
     }
 
-    public LightColor getColor() {
+    public Color getColor() {
         return color;
     }
 
-    public void setColor(LightColor color) {
-        this.color = color;
-    }
-
-    public Vehicle.Way getWay() {
+    public Way getWay() {
         return way;
     }
+
+    /**
+     * This function is the startpath where the light wants to change color or not
+     */
+    public void compute() {}
 
 }

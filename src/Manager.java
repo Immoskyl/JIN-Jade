@@ -1,15 +1,21 @@
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by immoskyl on 05/01/20.
  */
 public class Manager {
 
-    ConsoleDisplay c = new ConsoleDisplay();
-    ArrayList<Vehicle> vehicleList = new ArrayList<>();
-    ArrayList<Vehicle> vehicleToRemoveList = new ArrayList<>();
+    private int frame = 0;
+
+    private ConsoleDisplay c = new ConsoleDisplay();
+    private ArrayList<Vehicle> vehicleList = new ArrayList<>();
+    private ArrayList<Vehicle> vehicleToRemoveList = new ArrayList<>();
+
+    private Light bottomLight = new Light(Light.Way.BOTTOM, Light.Color.GREEN);
+    private Light topLight = new Light(Light.Way.TOP, Light.Color.GREEN);
+    private Light rightLight = new Light(Light.Way.RIGHT, Light.Color.RED);
+    private Light leftLight = new Light(Light.Way.LEFT, Light.Color.RED);
 
     /**
      * Create randomly a new vehicle if the position is empty
@@ -120,6 +126,101 @@ public class Manager {
         }
     }
 
+    private int countVehicleNbOnWay(Vehicle.Way way) {
+        int count = 0;
+        switch (way) {
+
+            case UpToDown:
+                for (int i = 0; i != 10; i++) {
+                    if (isPosEmpty(ConsoleDisplay.UpToDownWay_X, i))
+                        count++;
+                }
+                break;
+
+            case DownToUp:
+                for (int i = 16; i != ConsoleDisplay.max_Y; i++) {
+                    if (! isPosEmpty(ConsoleDisplay.DownToUpWay_X, i))
+                        count++;
+                }
+               break;
+
+            case LeftToRight:
+                for (int i = 0; i != 10; i++) {
+                    if (! isPosEmpty(i, ConsoleDisplay.LeftToRightWay_Y))
+                        count++;
+                }
+               break;
+
+            case RightToLeft:
+                for (int i = 18; i != ConsoleDisplay.max_Y; i++) {
+                    if (! isPosEmpty(i, ConsoleDisplay.RightToLeftWay_Y))
+                        count++;
+                }
+               break;
+       }
+       return count;
+    }
+
+
+    private void updateLights() {
+        notifyLights();
+        computeLights();
+        displayLights();
+    }
+
+    private void notifyLights() {
+        bottomLight.setTimeSinceLastColorChange(frame);
+        bottomLight.setVehicleNb(countVehicleNbOnWay(Vehicle.Way.DownToUp));
+        topLight.setTimeSinceLastColorChange(frame);
+        topLight.setVehicleNb(countVehicleNbOnWay(Vehicle.Way.UpToDown));
+        leftLight.setTimeSinceLastColorChange(frame);
+        leftLight.setVehicleNb(countVehicleNbOnWay(Vehicle.Way.LeftToRight));
+        rightLight.setTimeSinceLastColorChange(frame);
+        rightLight.setVehicleNb(countVehicleNbOnWay(Vehicle.Way.RightToLeft));
+    }
+
+
+    private void computeLights() {
+        bottomLight.compute();
+        topLight.compute();
+        rightLight.compute();
+        leftLight.compute();
+
+    }
+
+    private void displayLights() {
+
+        Light.Color lightBottom = bottomLight.getColor();
+        Light.Color lightTop = topLight.getColor();
+        Light.Color lightLeft = leftLight.getColor();
+        Light.Color lightRight = rightLight.getColor();
+
+        c.drawLight(Light.Way.BOTTOM, lightBottom);
+        c.drawLight(Light.Way.TOP, lightTop);
+        c.drawLight(Light.Way.RIGHT, lightRight);
+        c.drawLight(Light.Way.LEFT, lightLeft);
+
+        Vehicle v1 = getVehicleAtPos(ConsoleDisplay.UpToDownWay_X,
+                                     ConsoleDisplay.TopWayVehicleStop_Y);
+        if (v1 != null)
+            v1.setStopped(lightTop == Light.Color.RED);
+
+        Vehicle v2 = getVehicleAtPos(ConsoleDisplay.DownToUpWay_X,
+                                     ConsoleDisplay.BottomLight_Y);
+        if (v2 != null)
+            v2.setStopped(lightBottom == Light.Color.RED);
+
+        Vehicle v3 = getVehicleAtPos(ConsoleDisplay.LeftWayVehicleStop_X,
+                                     ConsoleDisplay.LeftToRightWay_Y);
+        if (v3 != null)
+            v3.setStopped(lightLeft == Light.Color.RED);
+
+        Vehicle v4 = getVehicleAtPos(ConsoleDisplay.RightWayCehicleStop_X,
+                                     ConsoleDisplay.RightToLeftWay_Y);
+        if (v4 != null)
+            v4.setStopped(lightRight == Light.Color.RED);
+    }
+
 
     /**
      * Method to execute at each 'frame' and that calls basically eveything
@@ -127,9 +228,13 @@ public class Manager {
      */
     public void gameLoop() {
         while(true) {
+            frame++;
+
             c.drawBaseCanvas2();
 
             createRandomlyNewVehicle();
+
+            updateLights();
 
             animateVehicles();
 
@@ -140,7 +245,6 @@ public class Manager {
             delay(500);
         }
     }
-
 
     /**
      * Do you really need an explanation for this?
