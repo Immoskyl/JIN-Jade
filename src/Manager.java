@@ -144,7 +144,7 @@ public class Manager {
 
     /**
      * Do you really need an explanation for this?
-     * @param int miliseconds
+     * @param miliseconds time for each frame
      */
     private void delay(int miliseconds) {
         try {

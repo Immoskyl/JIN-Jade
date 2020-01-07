@@ -40,18 +40,6 @@ public class ConsoleDisplay {
 
     private ArrayList<ConsoleChange> changesToRedraw = new ArrayList<>();
 
-    public static enum Light {
-        LEFT,
-        RIGHT,
-        TOP,
-        BOTTOM
-    }
-
-    public static enum LightColor {
-        GREEN,
-        RED
-    }
-
     private class ConsoleChange implements Comparable {
 
         private String str;
@@ -234,11 +222,11 @@ public class ConsoleDisplay {
 
     }
 
-   public void drawLight (Light light, LightColor color) {
+   public void drawLight (Light.LightWay light, Light.LightColor color) {
 
        String c;
        String colorChar;
-       if (color == LightColor.RED) {
+       if (color == Light.LightColor.RED) {
            c = "X";
            colorChar = ANSI_RED;
        } else {
@@ -292,10 +280,10 @@ public class ConsoleDisplay {
 
         //...and print everything on it
         //lets set the lights' colors
-        c.drawLight(Light.BOTTOM, LightColor.GREEN);
-        c.drawLight(Light.TOP, LightColor.GREEN);
-        c.drawLight(Light.RIGHT, LightColor.RED);
-        c.drawLight(Light.LEFT, LightColor.RED);
+        c.drawLight(Light.LightWay.BOTTOM, Light.LightColor.GREEN);
+        c.drawLight(Light.LightWay.TOP, Light.LightColor.GREEN);
+        c.drawLight(Light.LightWay.RIGHT, Light.LightColor.RED);
+        c.drawLight(Light.LightWay.LEFT, Light.LightColor.RED);
 
         //lets draw the vehicles
         c.drawVehicule(v1);
