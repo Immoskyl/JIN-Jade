@@ -232,12 +232,12 @@ public class Manager {
 
             // this is just an example that shows how a light change affects
             // all traffic at the crossing in the simulation
-            //if (frame % 20 == 0) {
-            //    leftLight.switchColor();
-            //    rightLight.switchColor();
-            //    bottomLight.switchColor();
-            //    topLight.switchColor();
-            //}
+            if (frame % 20 == 0) {
+                leftLight.switchColor();
+                rightLight.switchColor();
+                bottomLight.switchColor();
+                topLight.switchColor();
+            }
 
             c.drawBaseCanvas2();
 
