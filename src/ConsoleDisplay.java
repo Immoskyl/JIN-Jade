@@ -258,10 +258,16 @@ public class ConsoleDisplay {
    public void printCanvas () {
         redraw();
 
+        StringBuilder frameToDisplay = new StringBuilder();
+
         for (String s : canvas) {
-            System.out.println(s);
+            frameToDisplay.append(s);
+            frameToDisplay.append(System.lineSeparator());
         }
-       System.out.println("------------------------");
+       frameToDisplay.append("------------------------");
+       frameToDisplay.append(System.lineSeparator());
+
+       System.out.println(frameToDisplay.toString());
    }
 
 
