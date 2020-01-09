@@ -39,11 +39,21 @@ public class ConsoleDisplay {
     public static final int TopWayVehicleStop_Y = 9;
     public static final int BottomWayVehicleStop_Y = 15;
     public static final int LeftWayVehicleStop_X = 9;
-    public static final int RightWayCehicleStop_X = 17;
+    public static final int RightWayVehicleStop_X = 17;
 
     private ArrayList<String> canvas = new ArrayList<>();
 
     private ArrayList<ConsoleChange> changesToRedraw = new ArrayList<>();
+
+    private int collisions;
+
+    public int getCollisions() {
+        return collisions;
+    }
+
+    public void setCollisions(int collisions) {
+        this.collisions = collisions;
+    }
 
     private class ConsoleChange implements Comparable {
 
@@ -264,6 +274,9 @@ public class ConsoleDisplay {
             frameToDisplay.append(s);
             frameToDisplay.append(System.lineSeparator());
         }
+       frameToDisplay.append("Possible collisions this frame: ");
+       frameToDisplay.append(collisions);
+       frameToDisplay.append(System.lineSeparator());
        frameToDisplay.append("------------------------");
        frameToDisplay.append(System.lineSeparator());
 

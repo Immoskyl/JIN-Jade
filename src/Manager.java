@@ -17,6 +17,12 @@ public class Manager {
     private Light rightLight = new Light(Light.Way.RIGHT, Light.Color.RED);
     private Light leftLight = new Light(Light.Way.LEFT, Light.Color.RED);
 
+    private int collisions = 0;
+
+    public int getCollisions() {
+        return collisions;
+    }
+
     /**
      * Create randomly a new vehicle if the position is empty
      * This is just a basic implementation to make the demo of the simulation tho
@@ -74,55 +80,71 @@ public class Manager {
                 continue;
             }
 
-            int x;
-            int y;
+            int x = vehicle.getX();
+            int y = vehicle.getY();
 
             switch (vehicle.getWay()) {
                 case UpToDown:
-                    y = vehicle.getY();
-
                     //if the vehicle is too far, remove it from the simulation
                     if (y == ConsoleDisplay.max_Y)
                         vehicleToRemoveList.add(vehicle);
 
                     // if the vehicle has room to go forward, it does
                     if (isPosEmpty(ConsoleDisplay.UpToDownWay_X, y + 1))
+                        //move vehicle
                         vehicle.setY(y + 1);
+                    else
+                        //the vehicle cannot move and we want to find out why
+                        checkForCollisions(x, y);
                     break;
 
                 case DownToUp:
-                    y = vehicle.getY();
-
                     if (y - 1 == 0)
                         vehicleToRemoveList.add(vehicle);
 
                     if (isPosEmpty(ConsoleDisplay.DownToUpWay_X, y - 1))
                         vehicle.setY(y - 1);
+                    else
+                        checkForCollisions(x, y);
                     break;
 
                 case LeftToRight:
-                    x = vehicle.getX();
-
                     if (x == ConsoleDisplay.max_X)
                         vehicleToRemoveList.add(vehicle);
 
                     if (isPosEmpty(x + 1, ConsoleDisplay.LeftToRightWay_Y))
                         vehicle.setX(x + 1);
+                    else
+                        checkForCollisions(x, y);
                     break;
 
                 case RightToLeft:
-                    x = vehicle.getX();
-
                     if (x - 1 == 0)
                         vehicleToRemoveList.add(vehicle);
 
                     if (isPosEmpty(x - 1, ConsoleDisplay.RightToLeftWay_Y))
                         vehicle.setX(x - 1);
+                    else
+                        checkForCollisions(x, y);
                     break;
             }
         }
         for (Vehicle vehicle : vehicleToRemoveList) {
             vehicleList.remove(vehicle);
+        }
+    }
+
+    /**
+     * Check for possible vehicle collisions in the crossing
+     * @param x position of the vehicle
+     * @param y position of the vehicle
+     */
+    private void checkForCollisions(int x, int y) {
+        //if the place in front of the vehicle is not empty and if the vehicle is in the crossing
+        // it means it might produce a collision
+        if (x > ConsoleDisplay.LeftWayVehicleStop_X && x < ConsoleDisplay.RightWayVehicleStop_X
+                && y > ConsoleDisplay.TopWayVehicleStop_Y && y < ConsoleDisplay.BottomWayVehicleStop_Y) {
+            collisions++;
         }
     }
 
@@ -215,7 +237,7 @@ public class Manager {
         if (v3 != null)
             v3.setStopped(lightLeft == Light.Color.RED);
 
-        Vehicle v4 = getVehicleAtPos(ConsoleDisplay.RightWayCehicleStop_X,
+        Vehicle v4 = getVehicleAtPos(ConsoleDisplay.RightWayVehicleStop_X,
                                      ConsoleDisplay.RightToLeftWay_Y);
         if (v4 != null)
             v4.setStopped(lightRight == Light.Color.RED);
@@ -229,6 +251,7 @@ public class Manager {
     public void gameLoop() {
         while(true) {
             frame++;
+            collisions = 0;
 
             // this is just an example that shows how a light change affects
             // all traffic at the crossing in the simulation
@@ -274,6 +297,7 @@ public class Manager {
         for (Vehicle vehicle : vehicleList) {
             c.drawVehicule(vehicle);
         }
+        c.setCollisions(collisions);
     }
 
     public static void main(String[] args) {
